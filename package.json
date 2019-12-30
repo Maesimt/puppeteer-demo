@@ -1,0 +1,30 @@
+{
+  "author": "Guillaume Cummings",
+  "dependencies": {
+    "jest": "^24.9.0",
+    "puppeteer": "^2.0.0",
+    "puppeteer-firefox": "^0.5.0"
+  },
+  "description": "Web crawler as a way to do multi users acceptance tests.",
+  "devDependencies": {
+    "@types/node": "^12.12.21",
+    "@types/puppeteer": "^2.0.0",
+    "typescript": "^3.7.4"
+  },
+  "keywords": [
+    "puppets",
+    "tests",
+    "demo",
+    "acceptance"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "puppeteer-demo",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./build/index.js",
+    "watch": "./node_modules/typescript/bin/tsc -w",
+    "compile": "./node_modules/typescript/bin/tsc --extendedDiagnostics"
+  },
+  "version": "1.0.0"
+}
