@@ -1,10 +1,21 @@
 import puppeteer from 'puppeteer';
 import Cells from './engine/cells';
+import waitForOneVisible from './engine/waitForOneVisible';
 
 const delay = async (time: number) => {
   return new Promise(function(resolve) { 
       setTimeout(resolve, time * 1000)
   });
+};
+
+const isVisible = async (page: any, selector: string) => {
+  return await page.evaluate((input: string) => {
+    const e = document.querySelector(input);
+    if (!e)
+      return false;
+    const style = window.getComputedStyle(e);
+    return style && style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+  }, selector);
 };
 
 const run = async () => {
@@ -38,7 +49,7 @@ const run = async () => {
   console.log(publicUrl);
 
   // Demarrer un autre client. 
-  const browser2 = await puppeteer.launch({headless: false, defaultViewport: null, slowMo: 200});
+  const browser2 = await puppeteer.launch({headless: false, defaultViewport: null, slowMo: 50});
   const pages2 = await browser2.pages();
   const page2 = pages2[0];
   await page2.goto(publicUrl);
@@ -50,38 +61,84 @@ const run = async () => {
   // Cliquer sur un bouton play qui navigue sur la page pour jouer.
   await page2.click('.btn.btn-success.join-button');
 
-  // Wait for game display to be ready. (Players 1 is ready already)
-  await page2.waitFor('.player-one');
+  // Wait for a triangle showing who is first player to be displayed.
+  await waitForOneVisible(page, '.player > user > div.triangle');
+  
+  console.log('wait is over');
 
   // Determine who is first. who has a triangle on his plate.
   let startingPlayer;
   let otherPlayer;
 
-  const nodePlayer1Tile = page.$('.player-one > div.triangle');
-  if (nodePlayer1Tile) {
+  const isPlayer1TriangleVisibile = await isVisible(page, '.player-one > user > div.triangle');
+
+  console.log(`isPlayer1TriangleVisibile=${isPlayer1TriangleVisibile}`);
+  if (isPlayer1TriangleVisibile) {
+    console.log('boum');
     startingPlayer = page;
     otherPlayer = page2;
   } else {
+    console.log('boum2');
     startingPlayer = page2;
     otherPlayer = page;
   }
 
   // Define the game options. (Class);
   const cells = new Cells();
-  const players = [startingPlayer, otherPlayer];
 
   // Start playing !!! --- Loop
   let cell = cells.random();
   console.log(cell);
-  startingPlayer.click(cell);
-  delay(2);
+  await startingPlayer.click(cell);
+  await delay(3);
   // check if end game detected...
 
   cell = cells.random();
   console.log(cell);
-  startingPlayer.click(cell);
-  delay(2);
+  await otherPlayer.click(cell);
+  await delay(3);
   // check if end game detected...
+
+  cell = cells.random();
+  console.log(cell);
+  await startingPlayer.click(cell);
+  await delay(3);
+  // check if end game detected...
+
+  cell = cells.random();
+  console.log(cell);
+  await otherPlayer.click(cell);
+  await delay(3);
+  // check if end game detected...
+
+  cell = cells.random();
+  console.log(cell);
+  await startingPlayer.click(cell);
+  await delay(3);
+  // check if end game detected...
+
+  cell = cells.random();
+  console.log(cell);
+  await otherPlayer.click(cell);
+  await delay(3);
+  // check if end game detected...
+
+  cell = cells.random();
+  console.log(cell);
+  await startingPlayer.click(cell);
+  await delay(3);
+  // check if end game detected...
+
+  cell = cells.random();
+  console.log(cell);
+  await otherPlayer.click(cell);
+  await delay(3);
+  // check if end game detected...
+
+  cell = cells.random();
+  console.log(cell);
+  await startingPlayer.click(cell);
+  await delay(3);
   
 };
 

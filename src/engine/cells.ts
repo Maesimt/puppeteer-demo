@@ -15,6 +15,10 @@ class Cells {
   private remove = (position: number) => {
     this.remainingCells = this.remainingCells.filter((e, index) => index !== position);
   }
+
+  public hasCells = (): boolean => {
+    return !!this.remainingCells && this.remainingCells.length > 0;
+  }
 }
 
 export default Cells;
