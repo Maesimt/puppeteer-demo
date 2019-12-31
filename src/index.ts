@@ -47,6 +47,16 @@ const run = async () => {
   await otherPlayer.play(GridSpots.bottomLeft);
   await startingPlayer.play(GridSpots.bottomRight);
   
+  //Check the score.
+  const player1Score = await Player1.getTextFromDiv(Elements.playerOneScore);
+  const player2Score = await Player1.getTextFromDiv(Elements.playerTwoScore);
+
+  console.log(`Player 1 - score : ${player1Score}`);
+  console.log(`Player 2 - score : ${player2Score}`);
+  
+  // Start another game.
+  await Player1.click(Elements.playAgainButton);
+  await Player2.click(Elements.playAgainButton);
 };
 
 run();

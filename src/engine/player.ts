@@ -16,6 +16,7 @@ const isVisible = async (page: any, selector: string) => {
 const SetupNotCompletedError = new Error('You must run setup before using the player\'s method');
 
 class Player {
+  browser: puppeteer.Browser | null = null;
   page: puppeteer.Page | null = null;
   name: string;
 
@@ -24,8 +25,8 @@ class Player {
   }
 
   setup = async () => {
-    const browser = await puppeteer.launch({headless: false, defaultViewport: null, slowMo: 200});
-    const pages = await browser.pages();
+    this.browser = await puppeteer.launch({headless: false, defaultViewport: null, slowMo: 200});
+    const pages = await this.browser.pages();
     this.page = pages[0];
     await this.page.goto('https://papergames.io/en/tic-tac-toe');
   }
@@ -34,6 +35,7 @@ class Player {
     if (!this.page) {
       throw SetupNotCompletedError;
     }
+    await this.page.waitFor(target);
     await this.page.click(target);
   }
 
@@ -48,18 +50,18 @@ class Player {
     if (!this.page) {
       throw SetupNotCompletedError;
     }
-    await this.page?.waitForNavigation();
+    await this.page.waitForNavigation();
   }
 
   getTextFromInput = async (target: Elements): Promise<string> => {
     if (!this.page) {
       throw SetupNotCompletedError;
     }
-    const nodePublicUrl = await this.page.$(target);
-    if (!nodePublicUrl) {
+    const node = await this.page.$(target);
+    if (!node) {
       throw new Error(`Test scenario could not find a '${target}'.`);
     }
-    return (await (await nodePublicUrl.getProperty('value')).jsonValue() as string);
+    return (await (await node.getProperty('value')).jsonValue() as string);
   }
 
   waitForAtLeastOne = async (target: Elements) => {
@@ -83,6 +85,24 @@ class Player {
       throw SetupNotCompletedError;
     }
     await this.page.goto(url);
+  }
+
+  getTextFromDiv= async (target: Elements) => {
+    if (!this.page) {
+      throw SetupNotCompletedError;
+    }
+    const node = await this.page.$(target);
+    if (!node) {
+      throw new Error(`Test scenario could not find a '${target}'.`);
+    }
+    return (await (await node.getProperty('innerText')).jsonValue() as string);
+  }
+
+  close = async () => {
+    if (!this.browser) {
+      throw SetupNotCompletedError;
+    }
+    await this.browser.close();
   }
 }
 
