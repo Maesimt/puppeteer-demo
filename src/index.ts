@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import Cells from './engine/cells';
+import Grid from './engine/cells';
 import waitForOneVisible from './engine/waitForOneVisible';
 
 const delay = async (time: number) => {
@@ -78,51 +78,42 @@ const run = async () => {
   }
 
   // Define the game options. (Class);
-  const cells = new Cells();
+  const grid = new Grid();
 
   // Start playing !!! --- Loop
-  let cell = cells.random();
-  await startingPlayer.click(cell);
+  await startingPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await otherPlayer.click(cell);
+  await otherPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await startingPlayer.click(cell);
+  await startingPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await otherPlayer.click(cell);
+  await otherPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await startingPlayer.click(cell);
+  await startingPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await otherPlayer.click(cell);
+  await otherPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await startingPlayer.click(cell);
+  await startingPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await otherPlayer.click(cell);
+  await otherPlayer.click(grid.random());
   await delay(3);
   // check if end game detected...
 
-  cell = cells.random();
-  await startingPlayer.click(cell);
+  await startingPlayer.click(grid.random());
   await delay(3);
   
 };
