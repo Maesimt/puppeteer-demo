@@ -46,7 +46,6 @@ const run = async () => {
   }
   const publicUrl = (await (await nodePublicUrl.getProperty('value')).jsonValue() as string);
   //Debugging purpose.... activate or not logging.
-  console.log(publicUrl);
 
   // Demarrer un autre client. 
   const browser2 = await puppeteer.launch({headless: false, defaultViewport: null, slowMo: 50});
@@ -63,8 +62,6 @@ const run = async () => {
 
   // Wait for a triangle showing who is first player to be displayed.
   await waitForOneVisible(page, '.player > user > div.triangle');
-  
-  console.log('wait is over');
 
   // Determine who is first. who has a triangle on his plate.
   let startingPlayer;
@@ -72,13 +69,10 @@ const run = async () => {
 
   const isPlayer1TriangleVisibile = await isVisible(page, '.player-one > user > div.triangle');
 
-  console.log(`isPlayer1TriangleVisibile=${isPlayer1TriangleVisibile}`);
   if (isPlayer1TriangleVisibile) {
-    console.log('boum');
     startingPlayer = page;
     otherPlayer = page2;
   } else {
-    console.log('boum2');
     startingPlayer = page2;
     otherPlayer = page;
   }
@@ -88,55 +82,46 @@ const run = async () => {
 
   // Start playing !!! --- Loop
   let cell = cells.random();
-  console.log(cell);
   await startingPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await otherPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await startingPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await otherPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await startingPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await otherPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await startingPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await otherPlayer.click(cell);
   await delay(3);
   // check if end game detected...
 
   cell = cells.random();
-  console.log(cell);
   await startingPlayer.click(cell);
   await delay(3);
   
