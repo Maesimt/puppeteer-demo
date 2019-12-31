@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import Grid from './engine/cells';
+import Grid from './engine/grid';
 import waitForOneVisible from './engine/waitForOneVisible';
 
 const delay = async (time: number) => {
