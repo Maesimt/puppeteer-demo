@@ -1,6 +1,6 @@
 import { setup, GridSpots } from '../engine';
 
-describe('Tic-Tac-Toe : Column tests', () => {
+describe('Tic-Tac-Toe tests', () => {
   beforeEach(() => {
     jest.setTimeout(120000);
   });
@@ -13,15 +13,15 @@ describe('Tic-Tac-Toe : Column tests', () => {
       await startingPlayer.play(GridSpots.middleLeft);
       await otherPlayer.play(GridSpots.middleCenter);
       await startingPlayer.play(GridSpots.bottomLeft);
-      await otherPlayer.play(GridSpots.bottomCenter);
+
+      const startingPlayerScore = await startingPlayer.getScore();
+      const otherPlayerScore = await otherPlayer.getScore();
 
       await startingPlayer.close();
       await otherPlayer.close();
 
-      expect(true).toBe(true);
-    });
-    it('should lose given one cell is owned by another player.', () => {
-
+      expect(startingPlayerScore).toBe(1);
+      expect(otherPlayerScore).toBe(0);
     });
   })
 });

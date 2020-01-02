@@ -16,12 +16,14 @@ const isVisible = async (page: any, selector: string) => {
 const SetupNotCompletedError = new Error('You must run setup before using the player\'s method');
 
 class Player {
-  browser: puppeteer.Browser | null = null;
-  page: puppeteer.Page | null = null;
-  name: string;
+  private browser: puppeteer.Browser | null = null;
+  private page: puppeteer.Page | null = null;
+  public readonly name: string;
+  public readonly number: number;
 
-  constructor(name: string) {
+  constructor(name: string, number: number) {
     this.name = name;
+    this.number = number;
   }
 
   setup = async () => {
@@ -87,7 +89,7 @@ class Player {
     await this.page.goto(url);
   }
 
-  getTextFromDiv= async (target: Elements) => {
+  getTextFromDiv = async (target: Elements): Promise<string>  => {
     if (!this.page) {
       throw SetupNotCompletedError;
     }
@@ -96,6 +98,13 @@ class Player {
       throw new Error(`Test scenario could not find a '${target}'.`);
     }
     return (await (await node.getProperty('innerText')).jsonValue() as string);
+  }
+
+  getScore = async (): Promise<number> => {
+    return parseInt(
+      await this.getTextFromDiv(
+        this.number === 1 ? Elements.playerOneScore : Elements.playerTwoScore
+      ), 10);
   }
 
   close = async () => {

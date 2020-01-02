@@ -7,7 +7,7 @@ interface TurnOrderedPlayers {
 }
 
 const setup = async (): Promise<TurnOrderedPlayers> => {
-  const Player1 = new Player('Joueur 1');
+  const Player1 = new Player('Joueur 1', 1);
   await Player1.setup();
   await Player1.click(Elements.usernameField);
   await Player1.type(Player1.name);
@@ -15,7 +15,7 @@ const setup = async (): Promise<TurnOrderedPlayers> => {
   await Player1.waitForNavigation();
   const publicUrl = await Player1.getTextFromInput(Elements.publicUrlInput);
 
-  const Player2 = new Player('Joueur 2');
+  const Player2 = new Player('Joueur 2', 2);
   await Player2.setup();
   await Player2.navigatesTo(publicUrl);
   await Player2.click(Elements.usernameField);

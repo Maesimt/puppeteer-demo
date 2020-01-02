@@ -24,7 +24,6 @@
   "name": "puppeteer-demo",
   "scripts": {
     "test": "jest",
-    "start": "node ./build/index.js",
     "watch": "./node_modules/typescript/bin/tsc -w",
     "compile": "./node_modules/typescript/bin/tsc --extendedDiagnostics"
   },
