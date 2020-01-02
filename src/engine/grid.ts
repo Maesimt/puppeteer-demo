@@ -9,3 +9,5 @@ export enum GridSpots {
   bottomCenter = '.cell-2-1',
   bottomRight = '.cell-2-2'
 };
+
+export default GridSpots;

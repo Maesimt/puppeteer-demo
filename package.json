@@ -1,6 +1,7 @@
 {
   "author": "Guillaume Cummings",
   "dependencies": {
+    "@types/jest": "^24.0.25",
     "jest": "^24.9.0",
     "puppeteer": "^2.0.0",
     "puppeteer-firefox": "^0.5.0"
@@ -9,6 +10,7 @@
   "devDependencies": {
     "@types/node": "^12.12.21",
     "@types/puppeteer": "^2.0.0",
+    "jest-puppeteer": "^4.4.0",
     "typescript": "^3.7.4"
   },
   "keywords": [
@@ -21,7 +23,7 @@
   "main": "index.js",
   "name": "puppeteer-demo",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node ./build/index.js",
     "watch": "./node_modules/typescript/bin/tsc -w",
     "compile": "./node_modules/typescript/bin/tsc --extendedDiagnostics"
