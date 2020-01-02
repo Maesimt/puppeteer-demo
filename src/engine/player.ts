@@ -16,49 +16,41 @@ const isVisible = async (page: any, selector: string) => {
 const SetupNotCompletedError = new Error('You must run setup before using the player\'s method');
 
 class Player {
-  private browser: puppeteer.Browser | null = null;
-  private page: puppeteer.Page | null = null;
+  private browser: puppeteer.Browser;
+  private page: puppeteer.Page;
+  private readonly number: number;
   public readonly name: string;
-  public readonly number: number;
 
-  constructor(name: string, number: number) {
-    this.name = name;
+  private constructor(number: number, name: string, browser: puppeteer.Browser, page: puppeteer.Page) {
     this.number = number;
+    this.name = name;
+    this.browser = browser;
+    this.page = page;
   }
-
-  setup = async () => {
-    this.browser = await puppeteer.launch({headless: false, defaultViewport: null, slowMo: 200});
-    const pages = await this.browser.pages();
-    this.page = pages[0];
-    await this.page.goto('https://papergames.io/en/tic-tac-toe');
+  
+  static async create(name: string, number: number): Promise<Player> {
+    const browser = await puppeteer.launch({headless: false, defaultViewport: null, slowMo: 200});
+    const pages = await browser.pages();
+    const page = pages[0];
+    await page.goto('https://papergames.io/en/tic-tac-toe');
+    
+    return new Player(number, name, browser, page);;
   }
 
   click = async (target: Elements) => {
-    if (!this.page) {
-      throw SetupNotCompletedError;
-    }
     await this.page.waitFor(target);
     await this.page.click(target);
   }
 
   type = async (text: string) => {
-    if (!this.page) {
-      throw SetupNotCompletedError;
-    }
     await this.page.keyboard.type(text);
   }
 
   waitForNavigation = async () => {
-    if (!this.page) {
-      throw SetupNotCompletedError;
-    }
     await this.page.waitForNavigation();
   }
 
   getTextFromInput = async (target: Elements): Promise<string> => {
-    if (!this.page) {
-      throw SetupNotCompletedError;
-    }
     const node = await this.page.$(target);
     if (!node) {
       throw new Error(`Test scenario could not find a '${target}'.`);
@@ -75,24 +67,15 @@ class Player {
   }
 
   play = async (target: GridSpots) => {
-    if (!this.page) {
-      throw SetupNotCompletedError;
-    }
     await this.page.click(target);
     await this.page.waitFor(1500);
   }
 
   navigatesTo = async (url: string) => {
-    if (!this.page) {
-      throw SetupNotCompletedError;
-    }
     await this.page.goto(url);
   }
 
   getTextFromDiv = async (target: Elements): Promise<string>  => {
-    if (!this.page) {
-      throw SetupNotCompletedError;
-    }
     const node = await this.page.$(target);
     if (!node) {
       throw new Error(`Test scenario could not find a '${target}'.`);
@@ -108,9 +91,6 @@ class Player {
   }
 
   close = async () => {
-    if (!this.browser) {
-      throw SetupNotCompletedError;
-    }
     await this.browser.close();
   }
 }
