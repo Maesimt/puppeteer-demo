@@ -34,7 +34,7 @@ class Player {
     const page = pages[0];
     await page.goto('https://papergames.io/en/tic-tac-toe');
     
-    return new Player(number, name, browser, page);;
+    return new Player(number, name, browser, page);
   }
 
   click = async (target: Elements) => {
